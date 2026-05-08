@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Producción</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #dfefff;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1{
+            text-align: center;
+            color: #003366;
+        }
+
+        .contenedor{
+            width: 60%;
+            margin: auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td{
+            border: 1px solid #999;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th{
+            background-color: #003366;
+            color: white;
+        }
+
+        .bajo{
+            color: red;
+            font-weight: bold;
+        }
+
+        .aceptable{
+            color: orange;
+            font-weight: bold;
+        }
+
+        .excelente{
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Control de Producción</h1>
+
+    <div class="contenedor">
+        <script>
+
+            // 1. INGRESO DE DATOS
+            let operario = prompt("Ingrese el nombre del operario:");
+
+            let codigoProducto = prompt(
+                "Ingrese el tipo de producto:\n" +
+                "A = Componente A\n" +
+                "B = Componente B\n" +
+                "C = Componente C"
+            );
+
+            let tipoProducto = "";
+            let costoUnitario = 0;
+
+            // 2. SWITCH-CASE
+            switch(codigoProducto.toUpperCase()){
+
+                case "A":
+                    tipoProducto = "Componente A";
+                    costoUnitario = 5000;
+                    break;
+
+                case "B":
+                    tipoProducto = "Componente B";
+                    costoUnitario = 7000;
+                    break;
+
+                case "C":
+                    tipoProducto = "Componente C";
+                    costoUnitario = 10000;
+                    break;
+
+                default:
+                    tipoProducto = "Producto no válido";
+                    costoUnitario = 0;
+            }
+
+            // 3. REGISTRO DE PRODUCCIÓN (DO WHILE)
+            let produccionDias = [];
+            let totalPiezas = 0;
+            let continuar;
+
+            do{
+
+                let piezas = parseInt(prompt("Ingrese la cantidad de piezas producidas en el día:"));
+
+                produccionDias.push(piezas);
+
+                totalPiezas += piezas;
+
+                continuar = prompt("¿Desea registrar otro día? (si/no)");
+
+            }while(continuar.toLowerCase() == "si");
+
+
+            // 4. USO DE IF - RENDIMIENTO
+            let rendimiento = "";
+            let claseRendimiento = "";
+
+            if(totalPiezas < 50){
+                rendimiento = "Bajo rendimiento";
+                claseRendimiento = "bajo";
+            }
+            else if(totalPiezas >= 50 && totalPiezas <= 100){
+                rendimiento = "Rendimiento aceptable";
+                claseRendimiento = "aceptable";
+            }
+            else{
+                rendimiento = "Rendimiento excelente";
+                claseRendimiento = "excelente";
+            }
+
+
+            // 6. CÁLCULOS FINALES
+            let costoTotal = totalPiezas * costoUnitario;
+
+
+            // MOSTRAR RESULTADOS
+            document.write(`
+                <div class="contenedor">
+
+                    <table>
+                        <tr>
+                            <th colspan="2">Resultados Finales</th>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Nombre del Operario</strong></td>
+                            <td>${operario}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Tipo de Producto</strong></td>
+                            <td>${tipoProducto}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Total de Piezas</strong></td>
+                            <td>${totalPiezas}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Costo Unitario</strong></td>
+                            <td>$${costoUnitario}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Costo Total de Producción</strong></td>
+                            <td>$${costoTotal}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Rendimiento</strong></td>
+                            <td class="${claseRendimiento}">
+                                ${rendimiento}
+                            </td>
+                        </tr>
+                    </table>
+
+                    <h2>Producción por Día</h2>
+            `);
+
+            // 5. USO DE FOR
+            for(let i = 0; i < produccionDias.length; i++){
+
+                document.write(`
+                    <p>
+                        Día ${i + 1}: 
+                        ${produccionDias[i]} piezas producidas
+                    </p>
+                `);
+            }
+
+            document.write(`</div>`);
+
+        </script>
+    </div>
+
+</body>
+</html>
